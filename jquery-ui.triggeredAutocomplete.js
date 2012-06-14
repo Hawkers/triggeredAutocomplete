@@ -16,10 +16,6 @@
 ;(function ( $, window, document, undefined ) {
 	$.widget("ui.triggeredAutocomplete", $.extend({}, $.ui.autocomplete.prototype, {
 
-		options:{
-			trigger: "@",
-			allowDuplicates: true
-		},
 
 		_create:function() {
 
@@ -39,6 +35,11 @@
 			this.ac._create.apply(this, arguments);
 
 			this.updateHidden();
+
+			$.extend(this.options, {
+				trigger: "@",
+				allowDuplicates: true
+			});
 
 			// Select function defined via options.
 			this.options.select = function(event, ui) {
@@ -67,8 +68,6 @@
 			// Don't change the input as you browse the results.
 			this.options.focus = function(event, ui) { return false; }
 			this.menu.options.blur = function(event, ui) { return false; }
-
-			this.options.position = { my: "left top", at: "left bottom" };
 
 			// Any changes made need to update the hidden field.
 			this.element.focus(function() { self.updateHidden(); });
