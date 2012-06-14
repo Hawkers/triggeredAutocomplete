@@ -158,14 +158,15 @@
 						success: function(data) {
 							if(data != null) {
 								response($.map(data, function(item) {
-
+									if (typeof item === "string") {
+										label = item;
+									}
+									else {
+										label = item.label;
+									}
 									// If the item has already been selected don't re-include it.
-									if(!self.id_map[item.label] || self.options.allowDuplicates) {
-										return {
-											label: item.label,
-											value: item.value,
-											img: item.img
-										}
+									if(!self.id_map[label] || self.options.allowDuplicates) {
+										return item
 									}
 								}));
 								self.stopLength = -1;
