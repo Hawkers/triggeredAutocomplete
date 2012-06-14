@@ -36,7 +36,7 @@
 
 			this.updateHidden();
 
-		    	$.extend(this.options, {
+			$.extend(this.options, {
 				trigger: "@",
 				allowDuplicates: true
 			});
