@@ -14,8 +14,12 @@
 */
 
 ;(function ( $, window, document, undefined ) {
-	$.widget("ui.triggeredAutocomplete", $.extend({}, $.ui.autocomplete.prototype, {
-
+	$.widget("ui.triggeredAutocomplete", $.extend(true, {}, $.ui.autocomplete.prototype, {
+		
+		options: {
+			trigger: "@",
+			allowDuplicates: true
+		},
 
 		_create:function() {
 
@@ -35,11 +39,6 @@
 			this.ac._create.apply(this, arguments);
 
 			this.updateHidden();
-
-			$.extend(this.options, {
-				trigger: "@",
-				allowDuplicates: true
-			});
 
 			// Select function defined via options.
 			this.options.select = function(event, ui) {
