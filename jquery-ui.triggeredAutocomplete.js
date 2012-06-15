@@ -3,7 +3,7 @@
  * triggeredAutocomplete (jQuery UI autocomplete widget)
  * 2012 by Hawkee.com (hawkee@gmail.com)
  *
- * Version 1.4.1
+ * Version 1.4.3
  * 
  * Requires jQuery 1.7 and jQuery UI 1.8
  *
