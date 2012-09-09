@@ -29,6 +29,21 @@
 			this.stopLength = -1;
 			this.contents = '';
 			this.cursorPos = 0;
+			
+			/** Fixes some events improperly handled by ui.autocomplete */
+			this.element.bind('keydown.autocomplete.fix', function (e) {
+				switch (e.keyCode) {
+					case $.ui.keyCode.ESCAPE:
+						self.close(e);
+						e.stopImmediatePropagation();
+						break;
+					case $.ui.keyCode.UP:
+					case $.ui.keyCode.DOWN:
+						if (!self.menu.element.is(":visible")) {
+							e.stopImmediatePropagation();
+						}
+				}
+			});
 
 			// Check for the id_map as an attribute.  This is for editing.
 
