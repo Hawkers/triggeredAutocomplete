@@ -69,13 +69,25 @@
 				var start = contents.substring(0, cursorPos);
 				start = start.substring(0, start.lastIndexOf(self.options.trigger));
 
+				var top = self.element.scrollTop();
 				this.value = start + self.options.trigger+ui.item.label+' ' + end;
+				self.element.scrollTop(top);
 
 				// Create an id map so we can create a hidden version of this string with id's instead of labels.
 
 				self.id_map[ui.item.label] = ui.item.value;
 				self.updateHidden();
 
+				/** Places the caret right after the inserted item. */
+				var index = start.length + self.options.trigger.length + ui.item.label.length + 2;
+				if (this.createTextRange) {
+		            var range = this.createTextRange();
+		            range.move('character', index);
+		            range.select();
+		        } else if (this.setSelectionRange) {
+		        	this.setSelectionRange(index, index);
+		        }
+				
 				return false;
 			};
 
@@ -229,7 +241,7 @@
 
 		updateHidden: function() {
 			var trigger = this.options.trigger;
-
+			var top = this.element.scrollTop();
 			var contents = this.element.val();
 			for(var key in this.id_map) {
 				var find = trigger+key;
@@ -240,6 +252,7 @@
 				if(old_contents == contents) delete this.id_map[key];
 			}
 			$(this.options.hidden).val(contents);
+			this.element.scrollTop(top);
 		}
 
 	}));	
