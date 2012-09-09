@@ -29,6 +29,21 @@
 			this.stopLength = -1;
 			this.contents = '';
 			this.cursorPos = 0;
+			
+			/** Fixes some events improperly handled by ui.autocomplete */
+			this.element.bind('keydown.autocomplete.fix', function (e) {
+				switch (e.keyCode) {
+					case $.ui.keyCode.ESCAPE:
+						self.close(e);
+						e.stopImmediatePropagation();
+						break;
+					case $.ui.keyCode.UP:
+					case $.ui.keyCode.DOWN:
+						if (!self.menu.element.is(":visible")) {
+							e.stopImmediatePropagation();
+						}
+				}
+			});
 
 			// Check for the id_map as an attribute.  This is for editing.
 
@@ -54,13 +69,25 @@
 				var start = contents.substring(0, cursorPos);
 				start = start.substring(0, start.lastIndexOf(self.options.trigger));
 
+				var top = self.element.scrollTop();
 				this.value = start + self.options.trigger+ui.item.label+' ' + end;
+				self.element.scrollTop(top);
 
 				// Create an id map so we can create a hidden version of this string with id's instead of labels.
 
 				self.id_map[ui.item.label] = ui.item.value;
 				self.updateHidden();
 
+				/** Places the caret right after the inserted item. */
+				var index = start.length + self.options.trigger.length + ui.item.label.length + 2;
+				if (this.createTextRange) {
+		            var range = this.createTextRange();
+		            range.move('character', index);
+		            range.select();
+		        } else if (this.setSelectionRange) {
+		        	this.setSelectionRange(index, index);
+		        }
+				
 				return false;
 			};
 
@@ -214,7 +241,7 @@
 
 		updateHidden: function() {
 			var trigger = this.options.trigger;
-
+			var top = this.element.scrollTop();
 			var contents = this.element.val();
 			for(var key in this.id_map) {
 				var find = trigger+key;
@@ -225,6 +252,7 @@
 				if(old_contents == contents) delete this.id_map[key];
 			}
 			$(this.options.hidden).val(contents);
+			this.element.scrollTop(top);
 		}
 
 	}));	
