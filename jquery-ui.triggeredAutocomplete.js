@@ -139,7 +139,13 @@
 			this.contents = contents;
 			this.cursorPos = cursorPos;
 
-			if (contents.indexOf(this.options.trigger) >= 0) {
+			// Include the character before the trigger and check that the trigger is not in the middle of a word
+			// This avoids trying to match in the middle of email addresses when '@' is used as the trigger
+
+			var check_contents = contents.substring(contents.lastIndexOf(this.options.trigger) - 1, cursorPos);
+			var regex = new RegExp('\\B\\'+this.options.trigger+'([\\w\\-]+)');
+
+			if (contents.indexOf(this.options.trigger) >= 0 && check_contents.match(regex)) {
 
 				// Get the characters following the trigger and before the cursor position.
 				// Get the contents up to the cursortPos first then get the lastIndexOf the trigger to find the search term.
