@@ -18,7 +18,8 @@
 		
 		options: {
 			trigger: "@",
-			allowDuplicates: true
+			allowDuplicates: true,
+			maxLength: 0
 		},
 
 		_create:function() {
@@ -81,12 +82,12 @@
 				/** Places the caret right after the inserted item. */
 				var index = start.length + self.options.trigger.length + ui.item.label.length + 2;
 				if (this.createTextRange) {
-		            var range = this.createTextRange();
-		            range.move('character', index);
-		            range.select();
-		        } else if (this.setSelectionRange) {
-		        	this.setSelectionRange(index, index);
-		        }
+					var range = this.createTextRange();
+					range.move('character', index);
+					range.select();
+				} else if (this.setSelectionRange) {
+					this.setSelectionRange(index, index);
+				}
 				
 				return false;
 			};
@@ -158,7 +159,7 @@
 
 				if(this.stopIndex == contents.lastIndexOf(this.options.trigger) && term.length > this.stopLength) { term = ''; }
 			
-				if(term.length > 0) {
+				if (term.length > 0 && (!this.options.maxLength || term.length <= this.options.maxLength)) {
 					// Updates the hidden field to check if a name was removed so that we can put them back in the list.
 					this.updateHidden();
 					return this._search(term);

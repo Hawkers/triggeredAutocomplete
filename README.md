@@ -7,7 +7,8 @@ This widget lets you search for users to @mention in your posts.  It works very 
 $('#inputbox').triggeredAutocomplete({
 	hidden: '#hidden_inputbox,
 	source: "/search.php",
-	trigger: "@" 
+	trigger: "@",
+	maxLength: 25
 });
 ```
 
