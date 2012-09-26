@@ -36,4 +36,4 @@ This also supports an optional img to appear beside each result.  You just need 
 
 If you want editable posts, you need to pass an id_map as an attr tag of the input box.  This is also json encoded and is simply an associative array of the included user_id => username pairs in the existing post. This is so when you change the post the original @mentions are preserved in their @[12345] format.
 
-Demo: http://jsfiddle.net/vq6MH/66/
+Demo: http://jsfiddle.net/vq6MH/146/
